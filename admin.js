@@ -468,7 +468,7 @@
   /* ======================= Thông báo ======================= */
   function vNews() {
     var list = S.data.announcements;
-    var h = head('Thông báo', 'Tin ngắn hiện ở đầu trang chủ dưới dạng giấy ghi chú. Thông báo ghim sẽ luôn nằm trước.',
+    var h = head('Thông báo', 'Tin ngắn hiện thành một dải ngang ở đầu trang chủ, bấm vào để xem đầy đủ. Thông báo ghim luôn nằm trước.',
       '<button type="button" class="btn btn-primary" data-act="news-add">Thêm thông báo</button>');
     if (!list.length) return h + emptyList('Chưa có thông báo nào', 'Thông báo hữu ích để báo công cụ mới, lịch bảo trì hoặc lời nhắn cho học sinh.', '<button type="button" class="btn btn-primary" data-act="news-add">Thêm thông báo</button>');
     h += '<ul class="list">' + list.map(function (n) {

@@ -130,22 +130,33 @@
     }
   }
 
-  function renderNotes() {
+  function sortedNews() {
     var list = S.data.announcements.filter(function (n) { return n.visible; });
-    list.sort(function (a, b) {
-      if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
-      return a.date < b.date ? 1 : a.date > b.date ? -1 : 0;
+    list.sort(function (x, y) {
+      if (x.pinned !== y.pinned) return x.pinned ? -1 : 1;
+      return x.date < y.date ? 1 : x.date > y.date ? -1 : 0;
     });
-    list = list.slice(0, 6);
+    return list.slice(0, 12);
+  }
+
+  function updateArrows() {
+    var r = $('#notes'), prev = $('#newsPrev'), next = $('#newsNext');
+    var max = r.scrollWidth - r.clientWidth;
+    prev.hidden = max <= 4 || r.scrollLeft <= 4;
+    next.hidden = max <= 4 || r.scrollLeft >= max - 4;
+  }
+
+  function renderNotes() {
+    var list = sortedNews();
     $('#thongbao').hidden = !list.length;
     $('#navNews').hidden = !list.length;
     $('#notes').innerHTML = list.map(function (n) {
-      var link = E.safeUrl(n.link);
-      return '<article class="note"><h3>' + (n.pinned ? '<span aria-hidden="true">📌 </span>' : '') + esc(n.title) + '</h3>' +
-        (n.content ? '<p>' + esc(n.content) + '</p>' : '') +
-        (link ? '<p style="margin-top:8px"><a href="' + esc(link) + '" target="_blank" rel="noopener noreferrer">Xem thêm</a></p>' : '') +
-        (n.date ? '<span class="note-date">' + esc(E.fmtDate(n.date)) + '</span>' : '') + '</article>';
+      return '<button type="button" class="note" role="listitem" data-news="' + esc(n.id) + '">' +
+        '<span class="note-head"><span class="note-title">' + (n.pinned ? '<span aria-hidden="true">📌 </span>' : '') + esc(n.title) + '</span>' +
+        (n.date ? '<span class="note-date">' + esc(E.fmtDate(n.date)) + '</span>' : '') + '</span>' +
+        (n.content ? '<span class="note-text">' + esc(n.content.replace(/\s+/g, ' ')) + '</span>' : '') + '</button>';
     }).join('');
+    updateArrows();
   }
 
   function contactList(site) {
@@ -190,12 +201,32 @@
     note.hidden = !s.footerNote;
   }
 
+  /* ---------- Cửa sổ thông báo ---------- */
+  function openNews(id) {
+    var n = S.data.announcements.filter(function (x) { return x.id === id; })[0];
+    if (!n) return;
+    var link = E.safeUrl(n.link);
+    var dlg = $('#sheet');
+    dlg.classList.add('narrow');
+    dlg.style.removeProperty('--c');
+    dlg.innerHTML = '<div class="sheet-body">' +
+      '<button type="button" class="icon-btn sheet-close" data-close aria-label="Đóng cửa sổ">✕</button>' +
+      '<h2 id="sheetTitle">' + (n.pinned ? '<span aria-hidden="true">📌 </span>' : '') + esc(n.title) + '</h2>' +
+      (n.date ? '<p class="sheet-date">' + esc(E.fmtDate(n.date)) + '</p>' : '') +
+      (n.content ? '<p class="sheet-news">' + esc(n.content) + '</p>' : '') +
+      '<div class="sheet-actions">' +
+      (link ? '<a class="btn btn-primary" href="' + esc(link) + '" target="_blank" rel="noopener noreferrer">Xem thêm<span class="sr-only"> (mở trong tab mới)</span></a>' : '') +
+      '<button type="button" class="btn btn-ghost" data-close>Đóng</button></div></div>';
+    if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', '');
+  }
+
   /* ---------- Cửa sổ chi tiết ---------- */
   function openDetail(id) {
     var t = S.data.tools.filter(function (x) { return x.id === id; })[0];
     if (!t) return;
     var c = catOf(t);
     var dlg = $('#sheet');
+    dlg.classList.remove('narrow');
     dlg.style.setProperty('--c', c.color);
     dlg.innerHTML = '<div class="sheet-grid">' +
       '<div class="sheet-media">' + mediaInner(t, c, true) + '</div>' +
@@ -237,6 +268,20 @@
       renderChips(); renderGrid();
     });
     $('#sort').addEventListener('change', function (e) { S.sort = e.target.value; renderGrid(); });
+    var row = $('#notes');
+    row.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-news]');
+      if (b) openNews(b.getAttribute('data-news'));
+    });
+    row.addEventListener('scroll', updateArrows, { passive: true });
+    window.addEventListener('resize', updateArrows);
+    window.addEventListener('load', updateArrows);
+    function slide(dir) {
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      row.scrollBy({ left: dir * row.clientWidth * 0.8, behavior: reduce ? 'auto' : 'smooth' });
+    }
+    $('#newsPrev').addEventListener('click', function () { slide(-1); });
+    $('#newsNext').addEventListener('click', function () { slide(1); });
     $('#grid').addEventListener('click', function (e) {
       var d = e.target.closest('[data-detail]');
       if (d) { openDetail(d.getAttribute('data-detail')); return; }

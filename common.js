@@ -162,7 +162,7 @@
         name: 'Edutools',
         slogan: 'Công cụ dạy và học',
         heroTitle: 'Kho công cụ cho việc dạy và học',
-        heroText: 'Những công cụ trực tuyến thầy cô và học sinh dùng hằng ngày, gom về một chỗ. Bấm vào là mở.',
+        heroText: 'Công cụ thầy cô và học sinh dùng hằng ngày, gom về một chỗ. Bấm vào là mở.',
         logoEmoji: '✏️',
         logoImage: '',
         about: 'Edutools là nơi sưu tầm các công cụ, trang web và ứng dụng hữu ích cho giáo viên và học sinh.\nMỗi công cụ đều có mô tả ngắn và hướng dẫn nhanh để mở ra là dùng được ngay.\nCần thêm công cụ nào, thầy cô cứ liên hệ để được bổ sung.',
