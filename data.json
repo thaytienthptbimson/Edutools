@@ -1,0 +1,199 @@
+{
+  "version": 1,
+  "updatedAt": "2026-10-27T00:00:00.000Z",
+  "site": {
+    "name": "Edutools",
+    "slogan": "Công cụ dạy và học",
+    "heroTitle": "Kho công cụ cho việc dạy và học",
+    "heroText": "Những công cụ trực tuyến thầy cô và học sinh dùng hằng ngày, gom về một chỗ. Bấm vào là mở.",
+    "logoEmoji": "✏️",
+    "logoImage": "",
+    "about": "Edutools là nơi sưu tầm các công cụ, trang web và ứng dụng hữu ích cho giáo viên và học sinh.\nMỗi công cụ đều có mô tả ngắn và hướng dẫn nhanh để mở ra là dùng được ngay.\nCần thêm công cụ nào, thầy cô cứ liên hệ để được bổ sung.",
+    "contactEmail": "",
+    "contactZalo": "",
+    "contactFacebook": "",
+    "footerNote": ""
+  },
+  "categories": [
+    {
+      "id": "kiem-tra",
+      "name": "Trò chơi và kiểm tra",
+      "icon": "🎯",
+      "color": "#c0306b"
+    },
+    {
+      "id": "toan-khoa-hoc",
+      "name": "Toán và khoa học",
+      "icon": "🔬",
+      "color": "#0a7683"
+    },
+    {
+      "id": "lop-hoc",
+      "name": "Lớp học và cộng tác",
+      "icon": "🤝",
+      "color": "#b85a0a"
+    },
+    {
+      "id": "thiet-ke",
+      "name": "Thiết kế và trình chiếu",
+      "icon": "🎨",
+      "color": "#6a43bd"
+    }
+  ],
+  "tools": [
+    {
+      "id": "t-kahoot",
+      "title": "Kahoot!",
+      "desc": "Tạo trò chơi hỏi đáp trực tiếp, cả lớp cùng tham gia bằng điện thoại.",
+      "url": "https://kahoot.com",
+      "image": "",
+      "categoryId": "kiem-tra",
+      "tags": [
+        "trắc nghiệm",
+        "khởi động",
+        "trò chơi"
+      ],
+      "guide": "1. Tạo tài khoản giáo viên miễn phí.\n2. Soạn bộ câu hỏi hoặc chọn bộ có sẵn.\n3. Bấm Play và chiếu mã PIN lên màn hình.\n4. Học sinh vào kahoot.it, nhập mã PIN để chơi.",
+      "featured": true,
+      "visible": true,
+      "newTab": true,
+      "createdAt": "2026-10-01T08:00:00.000Z"
+    },
+    {
+      "id": "t-quizlet",
+      "title": "Quizlet",
+      "desc": "Thẻ ghi nhớ và bài kiểm tra nhanh để học từ vựng, khái niệm.",
+      "url": "https://quizlet.com",
+      "image": "",
+      "categoryId": "kiem-tra",
+      "tags": [
+        "từ vựng",
+        "thẻ ghi nhớ",
+        "ôn tập"
+      ],
+      "guide": "",
+      "featured": false,
+      "visible": true,
+      "newTab": true,
+      "createdAt": "2026-10-02T08:00:00.000Z"
+    },
+    {
+      "id": "t-wordwall",
+      "title": "Wordwall",
+      "desc": "Biến một bộ nội dung thành nhiều trò chơi và bài tập tương tác.",
+      "url": "https://wordwall.net",
+      "image": "",
+      "categoryId": "kiem-tra",
+      "tags": [
+        "trò chơi",
+        "bài tập",
+        "tương tác"
+      ],
+      "guide": "",
+      "featured": true,
+      "visible": true,
+      "newTab": true,
+      "createdAt": "2026-10-03T08:00:00.000Z"
+    },
+    {
+      "id": "t-geogebra",
+      "title": "GeoGebra",
+      "desc": "Vẽ hình, đồ thị và khảo sát hàm số một cách trực quan.",
+      "url": "https://www.geogebra.org",
+      "image": "",
+      "categoryId": "toan-khoa-hoc",
+      "tags": [
+        "Toán",
+        "hình học",
+        "đồ thị"
+      ],
+      "guide": "",
+      "featured": false,
+      "visible": true,
+      "newTab": true,
+      "createdAt": "2026-10-04T08:00:00.000Z"
+    },
+    {
+      "id": "t-desmos",
+      "title": "Desmos",
+      "desc": "Máy tính đồ thị trực tuyến. Kéo thanh trượt để thấy đồ thị thay đổi ngay.",
+      "url": "https://www.desmos.com/calculator",
+      "image": "",
+      "categoryId": "toan-khoa-hoc",
+      "tags": [
+        "Toán",
+        "hàm số"
+      ],
+      "guide": "",
+      "featured": false,
+      "visible": true,
+      "newTab": true,
+      "createdAt": "2026-10-05T08:00:00.000Z"
+    },
+    {
+      "id": "t-phet",
+      "title": "PhET",
+      "desc": "Mô phỏng Vật lí, Hóa học, Sinh học để học sinh tự làm thí nghiệm ảo.",
+      "url": "https://phet.colorado.edu/vi/",
+      "image": "",
+      "categoryId": "toan-khoa-hoc",
+      "tags": [
+        "Vật lí",
+        "Hóa học",
+        "thí nghiệm"
+      ],
+      "guide": "",
+      "featured": true,
+      "visible": true,
+      "newTab": true,
+      "createdAt": "2026-10-06T08:00:00.000Z"
+    },
+    {
+      "id": "t-padlet",
+      "title": "Padlet",
+      "desc": "Bảng dán ghi chú chung, cả lớp cùng đóng góp ý kiến và tài liệu.",
+      "url": "https://padlet.com",
+      "image": "",
+      "categoryId": "lop-hoc",
+      "tags": [
+        "thảo luận",
+        "nhóm",
+        "chia sẻ"
+      ],
+      "guide": "",
+      "featured": false,
+      "visible": true,
+      "newTab": true,
+      "createdAt": "2026-10-07T08:00:00.000Z"
+    },
+    {
+      "id": "t-canva",
+      "title": "Canva cho giáo dục",
+      "desc": "Thiết kế bài giảng, poster, infographic từ các mẫu có sẵn.",
+      "url": "https://www.canva.com/education/",
+      "image": "",
+      "categoryId": "thiet-ke",
+      "tags": [
+        "bài giảng",
+        "poster",
+        "infographic"
+      ],
+      "guide": "",
+      "featured": false,
+      "visible": true,
+      "newTab": true,
+      "createdAt": "2026-10-08T08:00:00.000Z"
+    }
+  ],
+  "announcements": [
+    {
+      "id": "n-chao",
+      "title": "Chào mừng đến với Edutools",
+      "content": "Trang đang được bổ sung công cụ dần dần. Thầy cô cần công cụ nào, cứ liên hệ để được thêm vào.",
+      "date": "2026-10-27",
+      "link": "",
+      "pinned": true,
+      "visible": true
+    }
+  ]
+}

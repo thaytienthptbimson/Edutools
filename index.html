@@ -1,0 +1,141 @@
+<!doctype html>
+<!--
+  Edutools - trang chủ
+  Bản quyền thuộc về Thầy Tiến - GV Trường THPT Bỉm Sơn- Thanh Hóa
+-->
+<html lang="vi" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Edutools - Công cụ dạy và học</title>
+  <meta name="description" content="Kho công cụ trực tuyến cho giáo viên và học sinh: mở là dùng, có mô tả và hướng dẫn ngắn.">
+  <meta name="theme-color" content="#2340a8">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E✏️%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Mali:wght@600;700&display=swap">
+  <script>
+    try {
+      var t = localStorage.getItem('edutools_theme') ||
+        (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#congcu">Chuyển tới danh sách công cụ</a>
+
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="#top" aria-label="Về đầu trang">
+        <span class="brand-mark" id="brandMark">✏️</span>
+        <span class="brand-text">
+          <span class="brand-name" id="brandName">Edutools</span>
+          <span class="brand-slogan" id="brandSlogan">Công cụ dạy và học</span>
+        </span>
+      </a>
+      <nav class="nav" aria-label="Điều hướng chính">
+        <a href="#congcu">Công cụ</a>
+        <a href="#thongbao" id="navNews" hidden>Thông báo</a>
+        <a href="#gioithieu">Giới thiệu</a>
+        <button type="button" class="icon-btn" id="themeBtn" aria-label="Đổi giao diện sáng hoặc tối">🌙</button>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero" id="top">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="hero-copy">
+        <h1><span class="hero-title" id="heroTitle">Kho công cụ cho việc dạy và học</span></h1>
+        <p class="hero-text" id="heroText"></p>
+        <form class="search" role="search" id="searchForm">
+          <label class="sr-only" for="q">Tìm công cụ theo tên, môn học hoặc từ khóa</label>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input id="q" type="search" placeholder="Gõ tên công cụ hoặc môn học" autocomplete="off" enterkeyhint="search">
+        </form>
+        <p class="hero-meta" id="heroMeta" aria-live="polite"></p>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 300 270" xmlns="http://www.w3.org/2000/svg">
+          <path class="art-set" fill-rule="evenodd" d="M20 30 L20 240 L230 240 Z"/>
+          <path class="art-set-hole" d="M52 126 L52 208 L142 208 Z"/>
+          <g class="art-tick">
+            <line x1="50" y1="240" x2="50" y2="230"/><line x1="70" y1="240" x2="70" y2="226"/>
+            <line x1="90" y1="240" x2="90" y2="230"/><line x1="110" y1="240" x2="110" y2="226"/>
+            <line x1="130" y1="240" x2="130" y2="230"/><line x1="150" y1="240" x2="150" y2="226"/>
+            <line x1="170" y1="240" x2="170" y2="230"/><line x1="190" y1="240" x2="190" y2="226"/>
+          </g>
+          <g transform="translate(176 118) rotate(-32)">
+            <rect class="art-pencil-body" x="-100" y="-13" width="170" height="26"/>
+            <rect class="art-pencil-stripe" x="-100" y="3" width="170" height="10"/>
+            <polygon class="art-pencil-wood" points="70,-13 70,13 100,4 100,-4"/>
+            <polygon class="art-pencil-lead" points="100,-4 100,4 114,0"/>
+            <rect class="art-pencil-band" x="-112" y="-13" width="12" height="26"/>
+            <rect class="art-pencil-eraser" x="-130" y="-13" width="18" height="26" rx="5"/>
+            <path class="art-line" d="M-100 -13 H70 L100 -4 L114 0 L100 4 L70 13 H-100 M-112 -13 V13"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <main id="main">
+    <section class="section" id="thongbao" hidden>
+      <div class="wrap">
+        <div class="section-head"><h2 class="section-title">Thông báo</h2></div>
+        <div class="notes" id="notes"></div>
+      </div>
+    </section>
+
+    <section class="section" id="congcu">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="section-title">Công cụ</h2>
+          <p class="section-sub" id="resultNote" aria-live="polite"></p>
+        </div>
+        <div class="toolbar">
+          <div class="chips" id="chips" role="group" aria-label="Lọc theo nhóm"></div>
+          <label class="sort">Sắp xếp
+            <select class="select" id="sort">
+              <option value="order">Theo thứ tự trên trang</option>
+              <option value="new">Mới thêm nhất</option>
+              <option value="az">Tên từ A đến Z</option>
+            </select>
+          </label>
+        </div>
+        <ul class="grid" id="grid"><li class="empty" style="grid-column:1/-1">Đang tải danh sách công cụ…</li></ul>
+        <noscript><p class="empty">Trang cần bật JavaScript để hiển thị danh sách công cụ.</p></noscript>
+      </div>
+    </section>
+  </main>
+
+  <div class="board" id="gioithieu">
+    <div class="wrap about">
+      <div>
+        <h2>Về <span id="aboutName">Edutools</span></h2>
+        <p id="aboutText"></p>
+      </div>
+      <div class="contact" id="contact" hidden>
+        <h3>Liên hệ</h3>
+        <div id="contactLinks" style="display:grid;gap:10px;justify-items:start"></div>
+      </div>
+    </div>
+    <footer class="foot">
+      <div class="wrap">
+        <div>
+          <p id="copyright"></p>
+          <small id="footerNote" hidden></small>
+        </div>
+        <p><a href="admin.html">Trang quản trị</a></p>
+      </div>
+    </footer>
+  </div>
+
+  <dialog class="sheet" id="sheet" aria-labelledby="sheetTitle"></dialog>
+
+  <script src="assets/common.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
