@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-28T08:28:35.483Z",
+  "updatedAt": "2026-10-28T08:31:20.031Z",
   "site": {
     "name": "Edutools",
     "slogan": "Công cụ dạy và học",
@@ -464,6 +464,22 @@
       "categoryId": "cmvrtbmwgvxvml",
       "tags": [
         "Tiếng Anh lớp 7"
+      ],
+      "featured": true,
+      "visible": true,
+      "newTab": true
+    },
+    {
+      "id": "tmvruro7wwverg",
+      "createdAt": "2026-10-28T08:28:48.860Z",
+      "title": "Tiếng Anh lớp 8",
+      "url": "https://l.facebook.com/l.php?u=https%3A%2F%2Fthaytienthptbimson.github.io%2FEnglish-For-Full-8%2F%3Ffbclid%3DIwZXh0bgNhZW0CMTAAcGRvZgFicmlkETE3cHY0RXA0dTZ5OUYwZHp6c3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHnffYMlGeKEEqoD2BMSVhWF83pbmWgVgUyaY5ETtj5S0sNRRNgODzYqL93Dt_aem_wTDMsPx4lu-l2QgHQ3746w&h=AUCisjTRV4Ot4dgtKdsJs1VzAFVm0YkGPLYeb2yRLnBUj977Bu43tQYY9gPCnb3u7g4NOVznHL7ZLO2OUWw7nE1NXkaHfgP2iNuqdAn18z-TluvARieYmo76zlNra6zBi6kx0qZq8EyXJp3A&__tn__=-UK-R&c[0]=AUBDhAFTO2IzCxKVGS7zh9BomsRNM6YKZWLR6Rgz-xdWN9_xEaRxu6yYZBn3S_b5iTXmeiOL-Nlb2nv0aUnLUmWlnU-5-7WpVntpOstAf7xn9QWtG2btQRo_HSTjdK2ixyHmLzeIuuOt91AuGJqsuN8b3_GdKKAz22Wc8Y4BpHtu1tV0uZwMCE0OyxHH_0TJ4oysECkVv2CXUufyrziAtc_g",
+      "desc": "- Học từ vựng, ngữ pháp, nghe.\n- Sinh động, chuẩn sách Global Success\n- Kiểm tra trình độ\n- Ghi âm",
+      "guide": "",
+      "image": "",
+      "categoryId": "cmvrtbmwgvxvml",
+      "tags": [
+        "Tiếng Anh lớp 8"
       ],
       "featured": true,
       "visible": true,
