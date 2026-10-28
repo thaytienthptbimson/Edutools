@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-28T15:09:29.610Z",
+  "updatedAt": "2026-10-28T15:18:24.144Z",
   "site": {
     "name": "Edutools",
     "slogan": "Công cụ dạy và học",
@@ -551,6 +551,15 @@
     }
   ],
   "announcements": [
+    {
+      "id": "nmvs9dug4lcuqq",
+      "title": "Bổ sung",
+      "content": "Hiện nay, website đã bổ sung link học Tiếng Anh từ lớp 1 đến lớp 12.",
+      "date": "2026-10-28",
+      "link": "",
+      "pinned": true,
+      "visible": true
+    },
     {
       "id": "n-chao",
       "title": "Chào mừng đến với Edutools",
