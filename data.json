@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-28T15:21:12.461Z",
+  "updatedAt": "2026-10-28T15:24:34.872Z",
   "site": {
     "name": "Edutools",
     "slogan": "Công cụ dạy và học",
@@ -503,6 +503,15 @@
     }
   ],
   "announcements": [
+    {
+      "id": "nmvs9m6phvrlee",
+      "title": "Đặc điểm cảu website",
+      "content": "Click vào ảnh sẽ dẫn đến đường link của ứng dụng hoặc video quảng cáo để liên hệ.",
+      "date": "2026-10-28",
+      "link": "",
+      "pinned": false,
+      "visible": true
+    },
     {
       "id": "nmvs9hxfuzicgc",
       "title": "Chú ý: đây là website chính chủ.",
