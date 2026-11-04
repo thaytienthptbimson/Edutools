@@ -45,15 +45,19 @@
     else { p.className = 'pill ok'; p.textContent = 'Không có thay đổi chờ xuất bản'; }
   }
 
+  /* Trả về Promise<boolean>: true = bản nháp đã được lưu vào trình duyệt */
   function save(msg) {
-    var ok = E.saveDraft(S.data);
-    if (!ok) {
-      toast('Không lưu được vào trình duyệt, có thể vì bộ nhớ đầy do ảnh nặng. Hãy dùng ảnh nhỏ hơn hoặc dán link ảnh, rồi xuất bản ngay.', 'err');
-    } else if (msg) {
-      toast(msg);
-    }
+    var p = Promise.resolve(E.saveDraft(S.data));
     updateState();
-    return ok;
+    return p.then(function (ok) {
+      if (!ok) {
+        toast('Không lưu được vào trình duyệt (bộ nhớ đầy hoặc trình duyệt chặn lưu). Hãy bấm “Tải data.json về máy” hoặc xuất bản ngay để không mất thay đổi.', 'err');
+      } else if (msg) {
+        toast(msg);
+      }
+      updateState();
+      return ok;
+    });
   }
 
   function applyBrand() {
@@ -674,7 +678,7 @@
     btn.disabled = true; st.textContent = 'Đang gửi dữ liệu lên GitHub…';
     S.data.updatedAt = new Date().toISOString();
     ghPublish(cfg, dataJson()).then(function () {
-      E.saveDraft(S.data); E.setDirty(false); updateState();
+      E.saveDraft(S.data, { clean: true }); updateState();
       st.className = 'status notice ok';
       st.textContent = 'Đã xuất bản. Trang chủ sẽ cập nhật sau khoảng 1 đến 2 phút.';
       toast('Đã xuất bản lên GitHub.');
@@ -691,7 +695,7 @@
     a.href = URL.createObjectURL(blob); a.download = 'data.json';
     document.body.appendChild(a); a.click();
     setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
-    E.saveDraft(S.data); E.setDirty(false); updateState();
+    E.saveDraft(S.data, { clean: true }); updateState();
     toast('Đã tải data.json. Hãy tải tệp này lên thay tệp cũ trong thư mục gốc của trang.');
   }
 

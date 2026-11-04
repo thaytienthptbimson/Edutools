@@ -308,22 +308,103 @@
   }
 
   /* ---------- Nạp / lưu dữ liệu ---------- */
+  /* Bản nháp (kèm ảnh) lưu trong IndexedDB vì localStorage chỉ chứa khoảng 5 MB, ảnh nặng là tràn.
+     Trình duyệt không cho dùng IndexedDB thì quay về localStorage như trước. */
+  var DB_NAME = 'edutools_v1', DB_STORE = 'kv';
+  var dbP = null;
+  var queue = Promise.resolve();      /* các thao tác ghi bản nháp chạy lần lượt, không bao giờ reject */
+  var dirtyMem = false;
+
+  function openDb() {
+    if (dbP) return dbP;
+    dbP = new Promise(function (resolve, reject) {
+      try {
+        if (!global.indexedDB) { reject(new Error('no-idb')); return; }
+        var rq = global.indexedDB.open(DB_NAME, 1);
+        rq.onupgradeneeded = function () { try { rq.result.createObjectStore(DB_STORE); } catch (e) { /* bỏ qua */ } };
+        rq.onsuccess = function () {
+          var db = rq.result;
+          db.onversionchange = function () { try { db.close(); } catch (e) { /* bỏ qua */ } dbP = null; };
+          resolve(db);
+        };
+        rq.onerror = function () { reject(rq.error || new Error('idb-open')); };
+        rq.onblocked = function () { reject(new Error('idb-blocked')); };
+      } catch (e) { reject(e); }
+    });
+    dbP.catch(function () { dbP = null; });
+    return dbP;
+  }
+
+  function idbTx(mode, fn) {
+    return openDb().then(function (db) {
+      return new Promise(function (resolve, reject) {
+        var tx = db.transaction(DB_STORE, mode);
+        var rq = fn(tx.objectStore(DB_STORE));
+        tx.oncomplete = function () { resolve(rq ? rq.result : undefined); };
+        tx.onerror = function () { reject(tx.error || new Error('idb-tx')); };
+        tx.onabort = function () { reject(tx.error || new Error('idb-abort')); };
+      });
+    });
+  }
+  function idbGet(k) { return idbTx('readonly', function (s) { return s.get(k); }); }
+  function idbPut(k, v) { return idbTx('readwrite', function (s) { return s.put(v, k); }); }
+  function idbDel(k) { return idbTx('readwrite', function (s) { return s['delete'](k); }); }
+
+  /* Ghi chuỗi JSON của bản nháp: IndexedDB trước, không được thì localStorage. Trả về Promise<boolean>. */
+  function persistText(text) {
+    var job = queue.then(function () {
+      return idbPut(KEYS.draft, text).then(function () {
+        store.del(KEYS.draft);      /* đã nằm an toàn trong IndexedDB: giải phóng chỗ trong localStorage */
+        return true;
+      }, function () {
+        return store.set(KEYS.draft, text);
+      });
+    });
+    queue = job;
+    return job;
+  }
+
+  /* localStorage còn dữ liệu = bản cũ chưa chuyển (hoặc bản ghi dự phòng mới nhất), nên ưu tiên; không có thì lấy IndexedDB */
+  function readDraftText() {
+    var ls = store.get(KEYS.draft);
+    if (ls) return Promise.resolve({ text: ls, legacy: true });
+    return idbGet(KEYS.draft).then(function (v) {
+      return { text: typeof v === 'string' ? v : '', legacy: false };
+    }, function () { return { text: '', legacy: false }; });
+  }
+
+  /* Trả về Promise: dữ liệu bản nháp, hoặc null nếu chưa có */
   function loadDraft() {
-    var raw = store.get(KEYS.draft);
-    if (!raw) return null;
-    try { return normalize(JSON.parse(raw)); } catch (e) { return null; }
+    return queue.then(readDraftText).then(function (r) {
+      if (!r.text) return null;
+      var d;
+      try { d = normalize(JSON.parse(r.text)); } catch (e) { return null; }
+      if (r.legacy) persistText(r.text);      /* chuyển bản cũ trong localStorage sang IndexedDB (không chờ kết quả) */
+      return d;
+    }).then(function (d) { return d; }, function () { return null; });
   }
 
-  function saveDraft(data) {
+  /* Trả về Promise<boolean>. Cờ "có thay đổi chưa xuất bản" được đặt ngay lúc gọi; opts.clean = true thì xóa cờ (vừa xuất bản hoặc tải về). */
+  function saveDraft(data, opts) {
     data.updatedAt = new Date().toISOString();
-    var ok = store.set(KEYS.draft, JSON.stringify(data));
-    if (ok) store.set(KEYS.dirty, '1');
-    return ok;
+    setDirty(!(opts && opts.clean));
+    return persistText(JSON.stringify(data));
   }
 
-  function clearDraft() { store.del(KEYS.draft); store.del(KEYS.dirty); }
-  function isDirty() { return store.get(KEYS.dirty) === '1'; }
-  function setDirty(v) { if (v) store.set(KEYS.dirty, '1'); else store.del(KEYS.dirty); }
+  function clearDraft() {
+    setDirty(false);
+    store.del(KEYS.draft);
+    var job = queue.then(function () {
+      return idbDel(KEYS.draft).then(function () { return true; }, function () { return false; });
+    });
+    queue = job;
+    return job;
+  }
+  function isDirty() { return dirtyMem || store.get(KEYS.dirty) === '1'; }
+  function setDirty(v) {
+    dirtyMem = !!v;
+    if (v) store.set(KEYS.dirty, '1'); else store.del(KEYS.dirty);
+  }
 
   function fetchPublished() {
     return fetch('data.json?v=' + Date.now(), { cache: 'no-store' }).then(function (r) {
@@ -334,20 +415,20 @@
 
   /* Trang chủ: dữ liệu đã xuất bản. Nếu không đọc được (mở bằng file://) thì dùng bản nháp hoặc dữ liệu mẫu */
   function loadForSite(preview) {
-    if (preview) {
-      var dr = loadDraft();
-      if (dr) return Promise.resolve(dr);
-    }
-    return fetchPublished().catch(function () {
-      return loadDraft() || normalize(defaultData());
+    return (preview ? loadDraft() : Promise.resolve(null)).then(function (dr) {
+      if (dr) return dr;
+      return fetchPublished().catch(function () {
+        return loadDraft().then(function (d) { return d || normalize(defaultData()); });
+      });
     });
   }
 
   function loadForAdmin() {
-    var dr = loadDraft();
-    if (dr) return Promise.resolve({ data: dr, from: 'draft' });
-    return fetchPublished().then(function (d) { return { data: d, from: 'site' }; })
-      .catch(function () { return { data: normalize(defaultData()), from: 'default' }; });
+    return loadDraft().then(function (dr) {
+      if (dr) return { data: dr, from: 'draft' };
+      return fetchPublished().then(function (d) { return { data: d, from: 'site' }; })
+        .catch(function () { return { data: normalize(defaultData()), from: 'default' }; });
+    });
   }
 
   /* ---------- Đăng nhập quản trị ---------- */
